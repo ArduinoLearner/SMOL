@@ -1,63 +1,48 @@
-
 from kivy.app import App
+from kivy.lang import builder
 from kivy.lang.builder import Builder
 
 import kivy
 from kivy.uix.boxlayout import BoxLayout
 kivy.require("2.0.0")
 
-
-code1 = """
+code = """
 BoxLayout:
     orientation: 'vertical'
-    
+    TextInput: 
+        id: txin1
+    Button: 
+        text: "Save"
+        on_press: app.seiv()
     Button:
-        text: "abrir segundo diseño"
+        text: "Open"
         on_press: app.run2()
 
-      
-  
 """
-
-code2 = """
-BoxLayout:
-    orientation: 'vertical'
-    
-    Button: 
-        text: "Lo hiciste n.n"
-    
-    BoxLayout:
-        Button:
-            text: "Home"
-        Button: 
-            text: "X"
-            on_press: functions.stahp()
-"""
-
-
-
-class functions():
-    def stahp():
-            App._running_app.stop()
-
-class Aptitude2App(App): #Codigo secundario ejecutable
-    def build(self):
-        return Builder.load_string(code2)
-    def run2(self):
-        App._running_app.stop()
-        AptitudeApp().run()
-    
-   
 
 
 
 class AptitudeApp(App): #Codigo principal de la ventana principal
     def build(self):
-        return Builder.load_string(code1)
+        return Builder.load_string(code)
+        
+    def seiv(self):
+        f = open("test.txt","w")
+        text = self.root.ids.txin1.text 
+        print(text)
+        f.write(text)
+        f.close()
     
-    def run2(self): #Metodo del botón ubicado en principal que correrá secundario 
-        App._running_app.stop() #cerrar la app que corre actualmente
-        Aptitude2App().run() # Correr la segunda app osi
+    def run2(self):
+        AptitudeApp._running_app.stop()
+        AptitudeApp2().run()
+
+
+class AptitudeApp2(App):
+    def build(self):
+        f = open("test.txt","r")
+        return Builder.load_string(str(f.read())); f.close()
+
 
 
 
