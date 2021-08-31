@@ -1,26 +1,67 @@
 from kivy.app import App
-from kivy.lang import builder
 from kivy.lang.builder import Builder
-
+from kivy.uix.screenmanager import ScreenManager,Screen
+from kivy.uix.tabbedpanel import TabbedPanel
 import kivy
-from kivy.uix.boxlayout import BoxLayout
 kivy.require("2.0.0")
 
+
 code = """
-BoxLayout:
-    orientation: 'vertical'
-    TextInput: 
-        id: txin1
+
+<menu@GridLayout>:
+    padding: 10
+    cols: 3
+    
     Button: 
         text: "Save"
         on_press: app.seiv()
+  
     Button:
         text: "Open"
-        on_press: app.run2()
+        on_press: app.gitopen()
+    
+    Button:
+        text: "Run"
+        on_press:  app.seiv(), app.run2()
+    
+
+    Button: 
+        text: "DelAll"
+        on_press: app.deleite()
+    Button:
+        text: "Tab"
+        on_press: app.tabu()
+    
+    Button: 
+        text: "Tab2"
+        on_press: app.tabu() , app.tabu()
+
+    
+
+<menu2@GridLayout>:
+    cols: 2
+    Button:
+    Button:
+    Button:
+    Button:
+    Button:
+    Button:
+
+                        
+
+
+BoxLayout:
+
+    spacing: 20
+    padding: 20
+    TextInput: 
+        id: txin1
+    menu:
+	    pos_hint: {"y": .7}
+        size_hint_y: .3
+        size_hint_x: .5
 
 """
-
-
 
 class AptitudeApp(App): #Codigo principal de la ventana principal
     def build(self):
@@ -36,6 +77,20 @@ class AptitudeApp(App): #Codigo principal de la ventana principal
     def run2(self):
         AptitudeApp._running_app.stop()
         AptitudeApp2().run()
+
+    def gitopen(self):
+        f = open("test.txt","r")
+        stringa = f.read()
+        self.root.ids.txin1.text = stringa
+    
+    def tabu(self):
+        self.root.ids.txin1.text =  self.root.ids.txin1.text + "    "
+    
+    
+    def deleite(self):
+        self.root.ids.txin1.text = ""
+    
+
 
 
 class AptitudeApp2(App):
